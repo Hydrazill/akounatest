@@ -1,0 +1,1 @@
+// initialisation SQLITE, excécution des requêtes

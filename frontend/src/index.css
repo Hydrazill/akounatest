@@ -1,0 +1,189 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 215 25% 27%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 215 25% 27%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 215 25% 27%;
+
+    --primary: 215 25% 27%;
+    --primary-foreground: 48 96% 89%;
+
+    --secondary: 164 95% 43%;
+    --secondary-foreground: 215 25% 27%;
+
+    --muted: 48 96% 89%;
+    --muted-foreground: 215 25% 46%;
+
+    --accent: 43 74% 66%;
+    --accent-foreground: 215 25% 27%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 48 46% 84%;
+    --input: 48 46% 84%;
+    --ring: 164 95% 43%;
+
+    --radius: 0.75rem;
+
+    --slate-blue: 215 25% 27%;
+    --emerald-green: 164 95% 43%;
+    --royal-gold: 43 74% 66%;
+    --champagne: 48 96% 89%;
+
+    --sidebar-background: 48 96% 89%;
+    --sidebar-foreground: 215 25% 27%;
+    --sidebar-primary: 215 25% 27%;
+    --sidebar-primary-foreground: 48 96% 89%;
+    --sidebar-accent: 48 46% 84%;
+    --sidebar-accent-foreground: 215 25% 27%;
+    --sidebar-border: 48 46% 84%;
+    --sidebar-ring: 164 95% 43%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans;
+    /* Prevent horizontal scroll on mobile */
+    overflow-x: hidden;
+  }
+  
+  /* Mobile-first responsive text sizing */
+  html {
+    font-size: 14px;
+  }
+  
+  @media (min-width: 640px) {
+    html {
+      font-size: 16px;
+    }
+  }
+}
+
+@layer components {
+  .afro-gradient {
+    background: linear-gradient(135deg, hsl(215 25% 27%) 0%, hsl(164 95% 43%) 50%, hsl(43 74% 66%) 100%);
+  }
+  
+  .gold-gradient {
+    background: linear-gradient(135deg, hsl(43 74% 66%) 0%, hsl(48 96% 89%) 100%);
+  }
+  
+  .emerald-gradient {
+    background: linear-gradient(135deg, hsl(164 95% 43%) 0%, hsl(164 95% 53%) 100%);
+  }
+  
+  /* Mobile-optimized container */
+  .container {
+    @apply mx-auto px-4 sm:px-6 lg:px-8;
+  }
+}
+
+@layer utilities {
+  /* Animations personnalisées */
+  @keyframes scroll-up {
+    0% {
+      transform: translateY(100vh);
+    }
+    100% {
+      transform: translateY(-100%);
+    }
+  }
+
+  @keyframes scroll-down {
+    0% {
+      transform: translateY(-100vh);
+    }
+    100% {
+      transform: translateY(100%);
+    }
+  }
+
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-20px);
+    }
+  }
+
+  @keyframes fade-in {
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animation-delay-200 {
+    animation-delay: 200ms;
+  }
+
+  .animation-delay-400 {
+    animation-delay: 400ms;
+  }
+
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  /* Mobile-specific utilities */
+  .touch-manipulation {
+    touch-action: manipulation;
+  }
+  
+  /* Safe area handling for mobile devices */
+  .safe-top {
+    padding-top: env(safe-area-inset-top);
+  }
+  
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  
+  /* Improved mobile touch targets */
+  .touch-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+/* Mobile-specific media queries */
+@media (max-width: 640px) {
+  .container {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+}
+
+/* Landscape mobile optimization */
+@media (max-height: 500px) and (orientation: landscape) {
+  .min-h-\[70vh\] {
+    min-height: 90vh;
+  }
+}
