@@ -1,8 +1,10 @@
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import axios from 'axios';
+
+const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
 interface User {
-  id: string;
   name: string;
   email: string;
   phone?: string;
@@ -71,17 +73,29 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const signup = async (name: string, email: string, password: string, phone?: string): Promise<boolean> => {
     await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    const newUser = {
-      id: Date.now().toString(),
-      name,
-      email,
-      phone,
-    };
-    
-    setUser(newUser);
-    localStorage.setItem('akounamatata_user', JSON.stringify(newUser));
-    return true;
+
+    try {
+      const now = new Date().toISOString();
+      const newUser = {
+        name,
+        email,
+        phone,
+        password
+      };
+      const response = await axios.post(`${API_BASE}/users`, newUser);
+      let id = response.data.id;
+      const response1 = await axios.post(`${API_BASE}/clients`, { id });
+
+      if (response.data && response1.data) {
+        setUser(newUser);
+        localStorage.setItem('akounamatata_user', JSON.stringify(newUser));
+      }
+
+      return true;
+    } catch (error: any) {
+      localStorage.setItem("error", JSON.stringify(error.response?.data || error.message));
+      return false;
+    }
   };
 
   const logout = () => {

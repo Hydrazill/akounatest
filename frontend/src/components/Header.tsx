@@ -7,6 +7,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useCart } from '@/contexts/CartContext';
 import { AuthModal } from './AuthModal';
 import { CartModal } from './CartModal';
+import { QRScannerModal } from './QRScannerModal';
 
 export const Header: React.FC = () => {
   const { user, logout } = useAuth();
@@ -14,12 +15,16 @@ export const Header: React.FC = () => {
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [showCartModal, setShowCartModal] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [showQRScanner, setShowQRScanner] = useState(false);
   const navigate = useNavigate();
 
   const handleLogout = () => {
     logout();
     navigate('/');
     setMobileMenuOpen(false);
+  };
+  const handleQRScanSuccess = (decodedText) => {
+    console.log(`/dashboard-client?table_id=${decodedText}`);
   };
 
   return (
@@ -36,10 +41,19 @@ export const Header: React.FC = () => {
             <Link to="/menu" className="text-sm font-medium hover:text-emerald-green transition-colors">
               Menu
             </Link>
-            <Button variant="ghost" size="sm" className="text-sm font-medium">
+            {/* <Button variant="ghost" size="sm" className="text-sm font-medium">
+              <QrCode className="h-4 w-4 mr-2" />
+              Scanner QR
+            </Button> */}
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              onClick={() => setShowQRScanner(true)}
+            >
               <QrCode className="h-4 w-4 mr-2" />
               Scanner QR
             </Button>
+
           </nav>
 
           {/* Desktop Actions */}
@@ -165,6 +179,10 @@ export const Header: React.FC = () => {
 
       <AuthModal open={showAuthModal} onOpenChange={setShowAuthModal} />
       <CartModal open={showCartModal} onOpenChange={setShowCartModal} />
+      <QRScannerModal 
+        open={showQRScanner} 
+        onClose={() => setShowQRScanner(false)} 
+      />
     </>
   );
 };

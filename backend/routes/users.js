@@ -7,6 +7,7 @@ const { validateUser } = require('../middlewares/validators');
 // CREATE
 router.post('/', validateUser, async (req, res) => {
     try {
+        console.log('Creating user with data:', req.body);
         const user = await User.create({ ...req.body, dateCreation: new Date(), dernierAcces: null });
         res.status(201).json(user);
     } catch (err) {

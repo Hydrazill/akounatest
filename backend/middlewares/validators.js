@@ -3,20 +3,20 @@ const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const phoneRegex = /^\+?\d{7,15}$/;
 
 exports.validateUser = (req, res, next) => {
-    const { id, nom, email, telephone, motDePasse } = req.body;
+    const { name, email, phone, password } = req.body;
 
-    if (!nom || nom.length < 2) return res.status(400).json({ error: 'Nom invalide' });
+    if (!name || name.length < 2) return res.status(400).json({ error: 'name invalide' });
     if (!email || !emailRegex.test(email)) return res.status(400).json({ error: 'Email invalide' });
-    if (!telephone || !phoneRegex.test(telephone)) return res.status(400).json({ error: 'Téléphone invalide' });
-    if (!motDePasse || motDePasse.length < 6) return res.status(400).json({ error: 'Mot de passe trop court' });
+    if (!phone || !phoneRegex.test(phone)) return res.status(400).json({ error: 'Téléphone invalide' });
+    if (!password || password.length < 6) return res.status(400).json({ error: 'Mot de passe trop court' });
 
     next();
 };
 
 exports.validateClient = (req, res, next) => {
     const { sessionId, tableId } = req.body;
-    if (!sessionId || typeof sessionId !== 'string') return res.status(400).json({ error: 'sessionId invalide' });
-    if (!tableId || typeof tableId !== 'string') return res.status(400).json({ error: 'tableId invalide' });
+    if (sessionId && typeof sessionId !== 'string') return res.status(400).json({ error: 'sessionId invalide' });
+    if (tableId && typeof tableId !== 'string') return res.status(400).json({ error: 'tableId invalide' });
 
     next();
 };

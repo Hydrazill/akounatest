@@ -7,6 +7,7 @@ import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
+import { error } from 'console';
 
 interface AuthModalProps {
   open: boolean;
@@ -37,7 +38,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ open, onOpenChange }) => {
       } else {
         toast({
           title: "Erreur de connexion",
-          description: "Email ou mot de passe incorrect.",
+          description: success,
           variant: "destructive",
         });
       }
@@ -64,6 +65,12 @@ export const AuthModal: React.FC<AuthModalProps> = ({ open, onOpenChange }) => {
           description: "Bienvenue sur AKOUNAMATATA !",
         });
         onOpenChange(false);
+      }else {
+        toast({
+          title: "Erreur d'inscription",
+          description: JSON.parse(localStorage.getItem("error")).error || JSON.parse(localStorage.getItem("error")).message,
+          variant: "destructive",
+        });
       }
     } finally {
       setIsLoading(false);
@@ -86,6 +93,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ open, onOpenChange }) => {
           </TabsList>
 
           <TabsContent value="login" className="space-y-4">
+            <label></label>
             <form onSubmit={handleLogin} className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="email">Email</Label>

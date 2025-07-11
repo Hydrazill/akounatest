@@ -9,10 +9,10 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
       defaultValue: () => uuidv4()
     },
-    nom: DataTypes.STRING,
+    name: DataTypes.STRING,
     email: DataTypes.STRING,
-    telephone: DataTypes.STRING,
-    motDePasse: DataTypes.STRING,
+    phone: DataTypes.STRING,
+    password: DataTypes.STRING,
     dateCreation: DataTypes.DATE,
     dernierAcces: DataTypes.DATE
   }, {
@@ -20,15 +20,15 @@ module.exports = (sequelize, DataTypes) => {
     tableName: 'users',
     hooks: {
       beforeCreate: async (user) => {
-        if (user.motDePasse) {
+        if (user.password) {
           const salt = await bcrypt.genSalt(10);
-          user.motDePasse = await bcrypt.hash(user.motDePasse, salt);
+          user.password = await bcrypt.hash(user.password, salt);
         }
       },
       beforeUpdate: async (user) => {
-        if (user.changed('motDePasse')) {
+        if (user.changed('password')) {
           const salt = await bcrypt.genSalt(10);
-          user.motDePasse = await bcrypt.hash(user.motDePasse, salt);
+          user.password = await bcrypt.hash(user.password, salt);
         }
       }
     }
